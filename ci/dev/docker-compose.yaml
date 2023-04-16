@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  mysql_db:
+    container_name: ${PROJECT_NAME}_mysql
+    image: mysql:8
+    ports:
+      - 3306:3306
+    user: ${UID}:${GID}
+    volumes:
+      - ./images/mysql/:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+    logging:
+      driver: syslog
+      options:
+        tag: "mysql"
+        syslog-facility: "daemon"
+    networks:
+      - skeleton-network
+
+networks:
+  skeleton-network:
+    driver: bridge
